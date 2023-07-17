@@ -10,27 +10,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Print secrets
-        run: |
-          echo "Server IP: ${{ secrets.SERVER_IP }}"
-          echo "Private Key: ${{ secrets.PRIVATE_KEY }}"
-#      - name: Checkout code
-#        uses: actions/checkout@v2
-#
-#      - name: SSH into server
-#        uses: appleboy/ssh-action@master
-#        with:
-#          host: ${{ secrets.SERVER_IP }}
-#          username: root
-#          key: ${{ secrets.PRIVATE_KEY }}
+      - name: SSH into server and pull repository
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: root
+          key: ${{ secrets.PRIVATE_KEY }}
 
           # Add any other SSH options, if needed
           # port: 22
           # passphrase: ${{ secrets.SSH_PASSPHRASE }}
 
           # Command to run on the server
-#          script: |
-#            cd ~/overfitting-overlords-2
-#            git pull
-#            docker-compose pull
-#            docker-compose up -d
+          script: |
+            cd /var/www/overfitting-overlords-2
+            git pull
