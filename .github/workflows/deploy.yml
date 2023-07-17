@@ -1,0 +1,35 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Docker
+        uses: docker/setup-docker@v1
+
+      - name: SSH into server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: root
+          key: ${{ secrets.PRIVATE_KEY }}
+
+          # Add any other SSH options, if needed
+          # port: 22
+          # passphrase: ${{ secrets.SSH_PASSPHRASE }}
+
+          # Command to run on the server
+          script: |
+            cd ~/overfitting-overlords-2
+            git pull
+            docker-compose pull
+            docker-compose up -d
