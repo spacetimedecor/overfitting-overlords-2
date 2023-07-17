@@ -6,3 +6,4 @@ docker_build(
 
 # Python service
 k8s_yaml('services/python/python-service.yaml')
+k8s_resource(workload='python-service-deployment', port_forwards=8080)
